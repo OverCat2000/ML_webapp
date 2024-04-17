@@ -6,7 +6,11 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import OneHotEncoder
 import joblib
 
+df = pd.read_csv("online_shoppers_intention_cleaned.csv")
+
 model = joblib.load("forest_cla.pkl")
+famd = joblib.load("famd.joblib")
+kmeans = joblib.load("kmeans.joblib")
 
 
 app = Flask(__name__)
@@ -47,6 +51,25 @@ def predict():
     TrafficType_SearchEngine = 1 if data["TrafficType"] == "Search Engine" else 0
     TrafficType_Social = 1 if data["TrafficType"] == "Social" else 0
 
+    famd_month = "Rest" if data["Month"] not in ["Mar", "May", "Nov", "Dec"] else data["Month"]
+
+
+    famd_new = {
+        "BounceRates": BounceRates,
+        "ExitRates": ExitRates,
+        "PageValues": PageValues,
+        "Administrative_Duration_Page": Administrative_Duration_Page,
+        "Informational_Duration_Page": Informational_Duration_Page,
+        "ProductRelated_Duration_Page": ProductRelated_Duration_Page,
+        "Weekend": data["Weekend"],
+        "Month": famd_month,
+        "VisitorType": data["VisitorType"].replace(" ", "_"),
+        "OperatingSystems": data["OperatingSystems"],
+        "Browser": data["Browser"],
+        "TrafficType": data["TrafficType"].replace(" ", "")
+    }
+
+    
     new = {
         "BounceRates": BounceRates,
         "ExitRates": ExitRates,
@@ -73,10 +96,23 @@ def predict():
         "TrafficType_Social": TrafficType_Social,
     }
 
+    famd_new = pd.DataFrame([famd_new])
+    famd_new = pd.concat([df, famd_new], axis=0)
+    scores = famd.transform(famd_new)
+    scores = scores.iloc[:, 0:6]
+    score = scores.iloc[-1:]
+
+    cluster = kmeans.predict(score)
+
+    print(score)
+    print(cluster)
+
+
     New = pd.DataFrame([new])
     model = joblib.load("forest_cla.pkl")
     prediction = model.predict(New)
-    return str(prediction)
+    return jsonify({"prediction": str(prediction), "cluster": str(cluster[0])})
+
 
 
 if __name__ == "__main__":

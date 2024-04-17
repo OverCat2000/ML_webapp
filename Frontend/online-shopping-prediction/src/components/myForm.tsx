@@ -130,15 +130,26 @@ const myForm = ({ setSelectedPage }: Props) => {
     try {
       const response = await axios.post("http://localhost:5000/predict", data);
       // console.log(response.data);
-      setPrediction(response.data);
-      const predictionResult = response.data;
+      setPrediction(response.data.prediction);
+      const predictionResult = response.data.prediction;
+      const clusterResult = response.data.cluster;
       console.log(predictionResult);
+      console.log(clusterResult);
       if (predictionResult === "[ True]") {
         Swal.fire({
           title: "Prediction Result",
           text: `This user will contribute to revenue`,
           icon: "success",
           confirmButtonText: "Done",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Cluster Result",
+              text: `This user belongs to cluster ${clusterResult}`,
+              icon: "info",
+              confirmButtonText: "Done",
+            });
+          }
         });
       } else if (predictionResult === "[False]") {
         Swal.fire({
@@ -146,6 +157,15 @@ const myForm = ({ setSelectedPage }: Props) => {
           text: `This user will not contribute to revenue`,
           icon: "error",
           confirmButtonText: "Done",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Cluster Result",
+              text: `This user belongs to cluster ${clusterResult}`,
+              icon: "info",
+              confirmButtonText: "Done",
+            });
+          }
         });
       }
     } catch (error) {
