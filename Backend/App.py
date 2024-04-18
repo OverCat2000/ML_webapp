@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, current_app
+from flask import Flask, jsonify
 from flask_cors import CORS
 import pandas as pd
 from sklearn.pipeline import Pipeline

@@ -132,7 +132,12 @@ const myForm = ({ setSelectedPage }: Props) => {
       // console.log(response.data);
       setPrediction(response.data.prediction);
       const predictionResult = response.data.prediction;
-      const clusterResult = response.data.cluster;
+      let clusterResult: string =
+        response.data.cluster === "1"
+          ? "Casual Buyers"
+          : response.data.cluster === "0"
+            ? "Regular Buyers"
+            : "error";
       console.log(predictionResult);
       console.log(clusterResult);
       if (predictionResult === "[ True]") {
@@ -145,7 +150,7 @@ const myForm = ({ setSelectedPage }: Props) => {
           if (result.isConfirmed) {
             Swal.fire({
               title: "Cluster Result",
-              text: `This user belongs to cluster ${clusterResult}`,
+              text: `This user belongs to cluster of ${clusterResult}`,
               icon: "info",
               confirmButtonText: "Done",
             });
@@ -161,7 +166,7 @@ const myForm = ({ setSelectedPage }: Props) => {
           if (result.isConfirmed) {
             Swal.fire({
               title: "Cluster Result",
-              text: `This user belongs to cluster ${clusterResult}`,
+              text: `This user belongs to cluster of ${clusterResult}`,
               icon: "info",
               confirmButtonText: "Done",
             });
@@ -218,14 +223,14 @@ const myForm = ({ setSelectedPage }: Props) => {
                     type="text"
                     placeholder="Bounce Rates"
                     {...register("BounceRates", {
-                      required: true,
+                      // required: true,
                       maxLength: 10,
                     })}
                   ></input>
                   {errors.BounceRates && (
                     <p>
-                      {errors.BounceRates && "This field is required"}
                       {errors.BounceRates && errors.BounceRates.message}
+                      {/* {errors.BounceRates && "This field is required"} */}
                       {errors.BounceRates &&
                         errors.BounceRates.type === "maxLength" &&
                         "Your input exceed maximum length"}
@@ -237,14 +242,14 @@ const myForm = ({ setSelectedPage }: Props) => {
                     type="text"
                     placeholder="Exit Rates"
                     {...register("ExitRates", {
-                      required: true,
+                      // required: true,
                       maxLength: 10,
                     })}
                   ></input>
                   {errors.ExitRates && (
                     <p>
-                      {errors.ExitRates && "This field is required"}
                       {errors.ExitRates && errors.ExitRates.message}
+                      {/* {errors.ExitRates && "This field is required"} */}
                       {errors.ExitRates &&
                         errors.ExitRates.type === "maxLength" &&
                         "Your input exceed maximum length"}
