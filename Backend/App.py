@@ -14,14 +14,15 @@ kmeans = joblib.load("kmeans.joblib")
 
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+#cors = CORS(app)
+CORS(app)
+#app.config['CORS_HEADERS'] = 'Content-Type'
 
 print("hello")
 
 
 @app.route("/predict", methods=["POST"])
-@cross_origin()
+#@cross_origin()
 def predict():
     # data = request.form.get('predictor1')
     data = request.json
