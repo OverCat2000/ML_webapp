@@ -4,4 +4,5 @@ flask-cors==4.0.0
 pandas==2.2.2
 jsonify==0.5
 joblib==1.4.0
+prince==0.13.0
 gunicorn
