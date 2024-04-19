@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -14,12 +14,14 @@ kmeans = joblib.load("kmeans.joblib")
 
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 print("hello")
 
 
 @app.route("/predict", methods=["POST"])
+@cross_origin()
 def predict():
     # data = request.form.get('predictor1')
     data = request.json

@@ -128,7 +128,10 @@ const myForm = ({ setSelectedPage }: Props) => {
       e.preventDefault();
     }
     try {
-      const response = await axios.post("http://localhost:5000/predict", data);
+      const response = await axios.post(
+        "https://ml-webapp-3ni0.onrender.com",
+        data,
+      );
       // console.log(response.data);
       setPrediction(response.data.prediction);
       const predictionResult = response.data.prediction;
