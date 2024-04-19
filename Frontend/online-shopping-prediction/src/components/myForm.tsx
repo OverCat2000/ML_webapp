@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -78,7 +78,7 @@ const myForm = ({ setSelectedPage }: Props) => {
     { value: "06", label: "Other" },
   ];
 
-  const [prediction, setPrediction] = useState<string>("");
+  // const [prediction, setPrediction] = useState<string>("");
 
   const {
     register,
@@ -115,12 +115,12 @@ const myForm = ({ setSelectedPage }: Props) => {
   //   setFormData({ ...formData, [name]: value });
   // };
 
-  const validate = async (e: ChangeEvent<HTMLInputElement>) => {
-    const isValid = await trigger();
-    if (!isValid) {
-      e.preventDefault();
-    }
-  };
+  // const validate = async (e: ChangeEvent<HTMLInputElement>) => {
+  //   const isValid = await trigger();
+  //   if (!isValid) {
+  //     e.preventDefault();
+  //   }
+  // };
 
   const onSubmit = async (data: FormData, e: any) => {
     const isValid = await trigger();
@@ -129,11 +129,11 @@ const myForm = ({ setSelectedPage }: Props) => {
     }
     try {
       const response = await axios.post(
-        "https://ml-webapp-3ni0.onrender.com",
+        "https://ml-webapp-3ni0.onrender.com/predict",
         data,
       );
       // console.log(response.data);
-      setPrediction(response.data.prediction);
+      // setPrediction(response.data.prediction);
       const predictionResult = response.data.prediction;
       let clusterResult: string =
         response.data.cluster === "1"

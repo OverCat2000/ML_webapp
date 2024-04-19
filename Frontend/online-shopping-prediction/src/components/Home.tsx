@@ -1,13 +1,11 @@
-import useMediaQuery from "@/hooks/useMediaQuery";
+// import useMediaQuery from "@/hooks/useMediaQuery";
 import Htex from "@/shared/Htex";
 import logo_transparent from "@/assets/logo_transparent.png";
 import shopping_cart1 from "@/assets/shopping_cart1.png";
 import { motion } from "framer-motion";
-import { HandRaisedIcon } from "@heroicons/react/16/solid";
-type Props = {};
 
-const Home = (props: Props) => {
-  const isAboveMediumScreen = useMediaQuery("(min-width: 1060px)");
+const Home = () => {
+  // const isAboveMediumScreen = useMediaQuery("(min-width: 1060px)");
   return (
     <section id="home" className="gap-16 bg-gray-20 py-10 md:h-full md:pb-0">
       {/*image nd headers*/}
